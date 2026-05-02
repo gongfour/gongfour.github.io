@@ -1,0 +1,59 @@
+# GitHub Pages 폴백 배포 워크플로우 (현재 비활성)
+#
+# 이 워크플로우는 수동 트리거(workflow_dispatch)로만 실행됩니다.
+# 즉 push 해도 자동 실행되지 않으며, 평소엔 동작하지 않습니다.
+#
+# Cloudflare Pages 에서 GitHub Pages 로 옮기고 싶다면:
+#   1. 아래 `on:` 블록에서 push 트리거를 주석 해제
+#   2. 저장소 Settings → Pages → Source 를 "GitHub Actions" 로 변경
+#   3. 커스텀 도메인 사용 시 Settings → Pages 에서 wonjin.xyz 등록
+#   4. 첫 실행은 Actions 탭에서 "Run workflow" 로 수동 실행해 검증
+
+name: Deploy to GitHub Pages (fallback)
+
+on:
+  workflow_dispatch:
+  # push:
+  #   branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Setup Zola
+        uses: taiki-e/install-action@v2
+        with:
+          tool: zola@0.22.1
+
+      - name: Build
+        run: zola build
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./public
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

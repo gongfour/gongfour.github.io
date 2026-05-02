@@ -1,0 +1,22 @@
+# Zola build output
+public/
+static/processed_images/
+# Zola가 매 빌드마다 자동 생성하는 syntax highlighting CSS
+static/giallo.css
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Cloudflare Wrangler
+.wrangler/
+.dev.vars
+
+# Node (if any tooling added later)
+node_modules/

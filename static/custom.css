@@ -1,0 +1,22 @@
+/* Pretendard — Korean web font (jsDelivr CDN) */
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@latest/dist/web/static/pretendard.css");
+
+:root {
+  --sans-serif-font: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
+    "Apple SD Gothic Neo", "Noto Sans KR", system-ui, sans-serif;
+  --serif-font: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
+    "Apple SD Gothic Neo", "Noto Sans KR", system-ui, sans-serif;
+}
+
+/* Korean line-break tuning — 어절 단위로 줄바꿈, 가독성 향상 */
+body,
+article,
+.text {
+  word-break: keep-all;
+  line-break: strict;
+  overflow-wrap: anywhere;
+}
+
+article {
+  line-height: 1.85;
+}

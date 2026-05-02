@@ -1,0 +1,127 @@
+# === Site identity ===
+base_url = "https://wonjin.xyz"
+title = "wonjin.xyz"
+description = "기록하고 정리하는 공간"
+author = "Wonjin Kang"
+default_language = "ko"
+
+theme = "tabi"
+
+# === Build ===
+generate_feeds = true
+compile_sass = true
+minify_html = true
+build_search_index = false  # 한국어 토크나이징 한계 — 추후 재검토
+
+taxonomies = [{ name = "tags", feed = true }]
+
+[markdown]
+bottom_footnotes = true
+smart_punctuation = true
+external_links_class = "external"
+
+[markdown.highlighting]
+theme = "catppuccin-frappe"
+style = "class"
+error_on_missing_language = true
+
+[link_checker]
+internal_level = "warn"
+
+# =====================================================
+# Tabi 테마 설정 (theme/tabi/config.toml 의 [extra] 를 오버라이드)
+# =====================================================
+[extra]
+# --- Typography (Korean-first) ---
+override_serif_with_sans = true
+stylesheets = ["custom.css"]
+enable_subset = false  # CDN 폰트 사용으로 비활성
+
+# --- Theme appearance ---
+theme_switcher = true
+default_theme = ""    # 시스템 설정 따름
+skin = "teal"
+browser_theme_color = "#087e96"
+
+# --- Repo metadata ---
+remote_repository_url = "https://github.com/gongfour/gongfour.github.io"
+remote_repository_git_platform = "github"
+remote_repository_branch = "main"
+show_remote_changes = true
+show_remote_source = true
+
+# --- Reading experience ---
+copy_button = true
+show_reading_time = true
+show_date = true
+post_listing_date = "date"
+toc = true
+show_previous_next_article_links = true
+quick_navigation_buttons = true
+iine = false  # 좋아요 버튼 비활성
+
+# --- Korean date formats ---
+long_date_format = "%Y년 %-m월 %-d일"
+short_date_format = "%Y년 %-m월 %-d일"
+archive_date_format = "%-m월 %-d일"
+
+# --- Identity ---
+favicon_emoji = "🌱"
+
+menu = [
+    { name = "blog", url = "blog", trailing_slash = true },
+    { name = "archive", url = "archive", trailing_slash = true },
+    { name = "tags", url = "tags", trailing_slash = true },
+    { name = "about", url = "about", trailing_slash = true },
+]
+
+socials = [
+    { name = "github", url = "https://github.com/gongfour", icon = "github" },
+]
+
+footer_menu = [
+    { url = "about", name = "about", trailing_slash = true },
+    { url = "sitemap.xml", name = "sitemap", trailing_slash = false },
+]
+
+# --- CSP ---
+# Pretendard(jsDelivr) + Giscus + GoatCounter 허용
+allowed_domains = [
+    { directive = "font-src", domains = ["'self'", "data:", "https://cdn.jsdelivr.net"] },
+    { directive = "img-src", domains = ["'self'", "https://*", "data:"] },
+    { directive = "media-src", domains = ["'self'", "https://cdn.jsdelivr.net/"] },
+    { directive = "script-src", domains = ["'self'", "https://giscus.app", "https://gc.zgo.at"] },
+    { directive = "style-src", domains = ["'self'", "https://cdn.jsdelivr.net", "https://giscus.app"] },
+    { directive = "frame-src", domains = ["player.vimeo.com", "https://www.youtube-nocookie.com", "https://giscus.app"] },
+    { directive = "connect-src", domains = ["'self'", "https://gc.zgo.at"] },
+]
+enable_csp = true
+
+# --- Analytics: GoatCounter ---
+# 활성화 절차:
+#   1) https://www.goatcounter.com 가입 (code 정함, 예: "wonjin")
+#   2) 아래 service / id 주석 해제
+# (placeholder 단계에선 블록 자체를 비활성화 — Tabi 가 id 미존재 시 빌드 실패함)
+# [extra.analytics]
+# service = "goatcounter"
+# id = "wonjin"
+
+# --- Comments: Giscus ---
+# TODO: 1) repo Discussions 켜기  2) https://github.com/apps/giscus 설치
+#       3) https://giscus.app 에서 repo_id, category_id 받아서 채우기
+#       4) enabled_for_all_posts = true 로 변경
+[extra.giscus]
+enabled_for_all_posts = false
+automatic_loading = true
+repo = "gongfour/gongfour.github.io"
+repo_id = ""
+category = "General"
+category_id = ""
+mapping = "slug"
+strict_title_matching = 1
+enable_reactions = 1
+comment_box_above_comments = false
+light_theme = "noborder_light"
+dark_theme = "noborder_dark"
+lang = "ko"
+lazy_loading = true
