@@ -90,10 +90,10 @@ allowed_domains = [
     { directive = "font-src", domains = ["'self'", "data:", "https://cdn.jsdelivr.net"] },
     { directive = "img-src", domains = ["'self'", "https://*", "data:"] },
     { directive = "media-src", domains = ["'self'", "https://cdn.jsdelivr.net/"] },
-    { directive = "script-src", domains = ["'self'", "https://giscus.app", "https://gc.zgo.at"] },
+    { directive = "script-src", domains = ["'self'", "https://giscus.app", "https://gc.zgo.at", "https://static.cloudflareinsights.com"] },
     { directive = "style-src", domains = ["'self'", "https://cdn.jsdelivr.net", "https://giscus.app"] },
     { directive = "frame-src", domains = ["player.vimeo.com", "https://www.youtube-nocookie.com", "https://giscus.app"] },
-    { directive = "connect-src", domains = ["'self'", "https://gc.zgo.at"] },
+    { directive = "connect-src", domains = ["'self'", "https://gc.zgo.at", "https://cloudflareinsights.com"] },
 ]
 enable_csp = true
 
@@ -107,16 +107,15 @@ enable_csp = true
 # id = "wonjin"
 
 # --- Comments: Giscus ---
-# TODO: 1) repo Discussions 켜기  2) https://github.com/apps/giscus 설치
-#       3) https://giscus.app 에서 repo_id, category_id 받아서 채우기
-#       4) enabled_for_all_posts = true 로 변경
+# IDs는 GitHub GraphQL로 자동 추출됨. 남은 단계: https://github.com/apps/giscus 설치
+# 설치 후 enabled_for_all_posts = true 로 변경하면 모든 글에 댓글 활성화.
 [extra.giscus]
 enabled_for_all_posts = false
 automatic_loading = true
 repo = "gongfour/gongfour.github.io"
-repo_id = ""
-category = "General"
-category_id = ""
+repo_id = "R_kgDOSSJ-3w"
+category = "Announcements"
+category_id = "DIC_kwDOSSJ-384C8KaH"
 mapping = "slug"
 strict_title_matching = 1
 enable_reactions = 1
