@@ -1,0 +1,54 @@
+# Cloudflare Pages 자동 배포 워크플로우 (현재 staged — 활성화 시 push 시마다 자동 배포)
+#
+# 활성화 절차:
+#   1. Cloudflare 대시보드 → 우상단 프로필 → API Tokens → Create Token
+#      "Custom token" 으로 다음 권한 부여:
+#        Account · Cloudflare Pages · Edit
+#      Account Resources: 본인 계정만 선택. TTL 비워둠.
+#      → 생성된 토큰(예: bWxxxxxxxxxx) 복사
+#
+#   2. GitHub 저장소에 secret 등록 (CLI):
+#        gh secret set CLOUDFLARE_API_TOKEN  -b 'PASTE_TOKEN_HERE'
+#        gh secret set CLOUDFLARE_ACCOUNT_ID -b 'f9878a9d5bef16e07ddd777d10195252'
+#      또는 Settings → Secrets and variables → Actions 에서 직접 추가.
+#
+#   3. 아래 `on:` 블록에서 `push:` 트리거 주석 해제하고 commit & push.
+#      이후부터는 main 브랜치에 push 하면 1~2분 안에 wonjin.xyz 에 반영됨.
+#
+#   4. 활성화 후에는 로컬에서 `wrangler pages deploy ...` 직접 실행할 필요 없음
+#      (단, 배포 분기를 검증하려면 `zola build` 로컬 미리보기는 여전히 유용).
+
+name: Deploy to Cloudflare Pages
+
+on:
+  workflow_dispatch:
+  # push:
+  #   branches: [main]
+
+permissions:
+  contents: read
+  deployments: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Setup Zola
+        uses: taiki-e/install-action@v2
+        with:
+          tool: zola@0.22.1
+
+      - name: Build
+        run: zola build
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy public --project-name=wonjin --branch=main --commit-message="Auto-deploy from main"

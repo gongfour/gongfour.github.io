@@ -29,6 +29,14 @@ git submodule update --remote --merge themes/tabi
 
 `.github/workflows/gh-pages.yml` 에 정의됨. 평소 비활성. 활성화 절차는 파일 상단 주석 참조.
 
+### 자동 배포 (선택 사항)
+
+`.github/workflows/cloudflare-pages.yml` 가 staged 상태로 들어있음. CF API 토큰 발급 + GitHub secret 등록 후 `on: push:` 주석 해제하면 main 푸시 시 자동 배포됨. 상세 절차는 워크플로우 파일 상단 주석 참조.
+
+## 글 작성 참고
+
+`content/blog/writing-guide/` 에 마크다운/front matter/shortcode 레퍼런스가 `draft = true` 로 들어있음. 새 글 시작 시 복사해서 사용 가능.
+
 ## 외부 서비스 설정 체크리스트
 
 `zola.toml` 의 placeholder 들을 채워야 활성화되는 항목:
